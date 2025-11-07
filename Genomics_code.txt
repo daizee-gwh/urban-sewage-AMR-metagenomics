@@ -1,0 +1,49 @@
+#PEAR (Paired-end read merger)
+pear -n 50 -j 2 -q 20 -f <R1.fastq.gz> -r <R2.fastq.gz> -o <sample_prefix>
+
+#Seqtk (for trimming)
+seqtk trimfq -b 10 -e 5 SAMPLE.assembled.fastq > SAMPLE.assembled.trimmed.fastq
+seqtk trimfq -b 10 -e 5 SAMPLE.unassembled.forward.fastq > SAMPLE.unassembled.forward.trimmed.fastq
+seqtk trimfq -b 10 -e 5 SAMPLE.unassembled.reverse.fastq > SAMPLE.unassembled.reverse.trimmed.fastq
+
+#SPAdes (assembly)
+spades -t 64 --careful \
+  --s1 SAMPLE.assembled.trimmed.fastq \
+  --s2 SAMPLE.unassembled.forward.trimmed.fastq \
+  --s3 SAMPLE.unassembled.reverse.trimmed.fastq \
+  -o /path/to/output/SAMPLE/
+
+#CheckM
+checkm lineage_wf -x fasta -t 12 my_genomes checkm_results
+
+#Snippy
+snippy --cpus 16 --outdir my_snippy_output --ref reference_genome.fna --ctgs contigs.fna
+
+#Snippy-core
+snippy-core --cpus 4 --prefix snippy-core my_snippy_output
+
+#RAxML
+raxmlHPC -n <output_name> -s <aligned_file> -m GTRGAMMA -f a -x 123 -# 100 -p 256 
+
+#Prokka
+prokka --outdir mydir --usegenus --addgenes --locustag <tag> --prefix <prefix> --genus Escherichia --species coli --gcode 11 --increment 10 --cpus 4 --force --centre XXX --compliance contigs.fna
+
+#Abricate (CARD & PlasmidFinder)
+abricate --db card --minid 80 --mincov 80 *.fna > output_card.csv
+abricate --summary output_card.csv > summary_card.csv
+
+abricate --db plasmidfinder --minid 90 --mincov 80 *.fna > output_plasmids.csv
+abricate --summary output_plasmids.csv > summary_plasmids.csv
+
+#MLST
+mlst genomes/*
+
+#MobileElementFinder
+mefinder find --contig contigs.fna output_name
+
+#Integron Finder
+integron_finder --local-max --cpu 4 --func-annot contigs.fna --outdir integronfinder_results
+
+#Clermontyper
+clermonTyping.sh --fasta EC1.fasta@EC2.fasta@EC3.fasta
+
