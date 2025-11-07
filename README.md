@@ -1,2 +1,2 @@
-# urban-sewage-AMR-metagenomics
-Metagenomic and genomic insights into antibiotic contamination and antimicrobial resistance (AMR) in Indian urban sewage microbiomes.
+# Metagenomic and Genomic Insights into Antibiotic Contamination and AMR in the Urban Sewage Microbiome in India
+The spread of AMR among bacterial pathogens has severely compromised the effectiveness of commonly used antibiotics in healthcare settings, reducing the therapeutic options and increasing the mortality rate. Metagenomic and genomic analyses of Indian urban sewage reveal widespread antibiotic contamination, diverse resistance genes, and mobile genetic elements associated with multidrug-resistant pathogens, highlighting sewage as a critical antimicrobial resistance reservoir.
